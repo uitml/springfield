@@ -11,23 +11,9 @@ This page details all the gory details of how we've installed and configured Kub
 $ kubeadm init --config springfield.yaml
 ```
 
-```yaml
-# springfield.yaml
-apiVersion: kubeadm.k8s.io/v1alpha1
-kind: MasterConfiguration
-
-networking:
-  # Use pod network CIDR required by Flannel.
-  podSubnet: 10.244.0.0/16
-
-featureGates:
-  # Enable gated features as documented in `kubeadm --help`, e.g.
-  # CoreDNS: true
-```
-
 ...
 ```
-kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/v0.10.0/Documentation/kube-flannel.yml
+kubectl apply -f flannel.yaml
 ```
 
 ...
@@ -41,8 +27,23 @@ kubectl taint nodes --all node-role.kubernetes.io/master-
 ## Prepare GPU capable nodes
 https://github.com/NVIDIA/k8s-device-plugin
 
+...
+```
+kubectl apply -f nvidia-device-plugin.yaml
+```
+
 ## Configure Ingress
 ...
+
+```
+kubectl apply -f ingress-nginx/namespace.yaml
+kubectl apply -f ingress-nginx/default-backend.yaml
+kubectl apply -f ingress-nginx/configmap.yaml
+kubectl apply -f ingress-nginx/tcp-services-configmap.yaml
+kubectl apply -f ingress-nginx/udp-services-configmap.yaml
+kubectl apply -f ingress-nginx/rbac.yaml
+kubectl apply -f ingress-nginx/with-rbac.yaml
+```
 
 ## Install Dashboard
 ...
