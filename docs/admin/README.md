@@ -21,7 +21,7 @@ networking:
   podSubnet: 10.244.0.0/16
 
 featureGates:
-  # Enable gated features as documented in `kubeadm --help`
+  # Enable gated features as documented in `kubeadm --help`, e.g.
   # CoreDNS: true
 ```
 
