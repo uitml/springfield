@@ -1,6 +1,9 @@
 # Kubernetes on Springfield
 This page details all the gory details of how we've installed and configured Kubernetes (k8s) on GPU cluster, codenamed "Springfield". The primary motivation behind documenting this is improve the [bus factor](https://en.wikipedia.org/wiki/Bus_factor), as well as make it easier to recreate the cluster in case of catastrophic hardware failure or similar.
 
+The primary reference used when writing this document, was
+https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/
+
 ## Prepare all nodes
 ...
 
@@ -27,10 +30,12 @@ kubectl taint nodes --all node-role.kubernetes.io/master-
 ## Prepare GPU capable nodes
 https://github.com/NVIDIA/k8s-device-plugin
 
-...
 ```
 kubectl apply -f nvidia-device-plugin.yaml
 ```
+
+### References
+* https://kubernetes.io/docs/tasks/manage-gpus/scheduling-gpus/
 
 ## Configure Ingress
 ...
@@ -45,5 +50,13 @@ kubectl apply -f ingress-nginx/rbac.yaml
 kubectl apply -f ingress-nginx/with-rbac.yaml
 ```
 
+### External authentication
+https://github.com/kubernetes/ingress-nginx/blob/master/docs/examples/external-auth/README.md
+
 ## Install Dashboard
 ...
+
+### References
+* https://github.com/kubernetes/dashboard/wiki/Installation
+* https://github.com/kubernetes/dashboard/wiki/Access-control
+* https://github.com/kubernetes/dashboard/wiki/Creating-sample-user
