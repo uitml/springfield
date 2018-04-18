@@ -1,0 +1,10 @@
+apiVersion: kubeadm.k8s.io/v1alpha1
+kind: MasterConfiguration
+
+networking:
+  # Use pod network CIDR required by Flannel.
+  podSubnet: 10.244.0.0/16
+
+featureGates:
+  # Enable gated features as documented in `kubeadm --help`, e.g.
+  # CoreDNS: true
