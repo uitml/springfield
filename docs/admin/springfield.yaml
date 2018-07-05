@@ -1,10 +1,14 @@
-apiVersion: kubeadm.k8s.io/v1alpha1
+apiVersion: kubeadm.k8s.io/v1alpha2
 kind: MasterConfiguration
+kubernetesVersion: v1.11.0
+
+# Customize the name of the cluster to match the internal codename.
+clusterName: springfield
 
 networking:
   # Use pod network CIDR required by Flannel.
   podSubnet: 10.244.0.0/16
 
 featureGates:
-  # Enable gated features as documented in `kubeadm --help`, e.g.
-  # CoreDNS: true
+  # Enable or disable gated features as documented in `kubeadm --help`, e.g.
+  # CoreDNS: false
