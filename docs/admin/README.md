@@ -53,6 +53,10 @@ kubectl apply -f ingress-nginx/with-rbac.yaml
 ### External authentication
 https://github.com/kubernetes/ingress-nginx/blob/master/docs/examples/external-auth/README.md
 
+### References
+* https://kubernetes.io/docs/concepts/services-networking/ingress/
+* https://kubernetes.github.io/ingress-nginx/deploy/
+
 ## Install Dashboard
 ...
 
