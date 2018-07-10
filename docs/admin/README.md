@@ -1,8 +1,7 @@
 # Kubernetes on Springfield
 This page details all the gory details of how we've installed and configured Kubernetes (k8s) on GPU cluster, codenamed "Springfield". The primary motivation behind documenting this is improve the [bus factor](https://en.wikipedia.org/wiki/Bus_factor), as well as make it easier to recreate the cluster in case of catastrophic hardware failure or similar.
 
-The primary reference used when writing this document, was
-https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/
+All of the following instructions assume that the current working directory is the [`k8s`](https://github.com/uitml/springfield/tree/master/k8s) directory at the root level of this repository. This is the directory that contains all of the manifests that will be applied to the cluster.
 
 ## Prepare all nodes
 ...
@@ -24,10 +23,13 @@ kubectl apply -f flannel.yaml
 kubectl taint nodes --all node-role.kubernetes.io/master-
 ```
 
-## Join other nodes to the cluster
+### Join other nodes to the cluster
 ...
 
-## Prepare GPU capable nodes
+### References
+* https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/
+
+## Prepare GPU-capable nodes
 https://github.com/NVIDIA/k8s-device-plugin
 
 ```
