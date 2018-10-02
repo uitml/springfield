@@ -1,5 +1,6 @@
-apiVersion: kubeadm.k8s.io/v1alpha2
+---
 kind: MasterConfiguration
+apiVersion: kubeadm.k8s.io/v1alpha2
 kubernetesVersion: v1.11.0
 
 # Customize the name of the cluster to match the internal codename.
@@ -12,3 +13,4 @@ networking:
 featureGates:
   # Enable or disable gated features as documented in `kubeadm --help`, e.g.
   # CoreDNS: false
+---
