@@ -1,0 +1,81 @@
+---
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: {{username}}
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: owner
+  namespace: {{username}}
+subjects:
+- kind: User
+  name: {{username}}
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: ClusterRole
+  name: springfield:{{group}}
+  apiGroup: rbac.authorization.k8s.io
+---
+kind: ResourceQuota
+apiVersion: v1
+metadata:
+  name: compute-resources
+  namespace: {{username}}
+spec:
+  hard:
+    requests.cpu: 4
+    requests.memory: 16Gi
+    requests.nvidia.com/gpu: 1
+---
+kind: LimitRange
+apiVersion: v1
+metadata:
+  name: default-resources
+  namespace: {{username}}
+spec:
+  limits:
+  - default:
+      cpu: 2
+      memory: 8Gi
+      nvidia.com/gpu: 1
+    type: Container
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: depot
+  namespace: {{username}}
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Gi
+  storageClassName: fast
+---
+kind: Pod
+apiVersion: v1
+metadata:
+  name: storage
+  namespace: {{username}}
+spec:
+  containers:
+  - name: manager
+    image: alpine:latest
+    resources:
+      limits:
+        cpu: 100m
+        memory: 64Mi
+        nvidia.com/gpu: 0
+    volumeMounts:
+    - mountPath: /depot
+      name: depot
+    command: ["/bin/sh"]
+    args: ["-c", "while true; do sleep 1000; done"]
+  volumes:
+  - name: depot
+    persistentVolumeClaim:
+      claimName: depot
+---
