@@ -1,7 +1,7 @@
 ---
-kind: MasterConfiguration
-apiVersion: kubeadm.k8s.io/v1alpha2
-kubernetesVersion: v1.11.0
+kind: ClusterConfiguration
+apiVersion: kubeadm.k8s.io/v1beta1
+kubernetesVersion: v1.13.0
 
 # Customize the name of the cluster to match the internal codename.
 clusterName: springfield
