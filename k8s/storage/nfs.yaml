@@ -1,0 +1,165 @@
+---
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: nfs-storage
+---
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+  name: nfs-provisioner
+  namespace: nfs-storage
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: nfs-provisioner-runner
+rules:
+- apiGroups: [""]
+  resources: ["persistentvolumes"]
+  verbs: ["get", "list", "watch", "create", "delete"]
+- apiGroups: [""]
+  resources: ["persistentvolumeclaims"]
+  verbs: ["get", "list", "watch", "update"]
+- apiGroups: ["storage.k8s.io"]
+  resources: ["storageclasses"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: [""]
+  resources: ["events"]
+  verbs: ["create", "update", "patch"]
+- apiGroups: [""]
+  resources: ["services", "endpoints"]
+  verbs: ["get"]
+- apiGroups: ["extensions"]
+  resources: ["podsecuritypolicies"]
+  resourceNames: ["nfs-provisioner"]
+  verbs: ["use"]
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: run-nfs-provisioner
+subjects:
+- kind: ServiceAccount
+  name: nfs-provisioner
+  namespace: nfs-storage
+roleRef:
+  kind: ClusterRole
+  name: nfs-provisioner-runner
+  apiGroup: rbac.authorization.k8s.io
+---
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: leader-locking-nfs-provisioner
+  namespace: nfs-storage
+rules:
+- apiGroups: [""]
+  resources: ["endpoints"]
+  verbs: ["get", "list", "watch", "create", "update", "patch"]
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: leader-locking-nfs-provisioner
+  namespace: nfs-storage
+subjects:
+- kind: ServiceAccount
+  name: nfs-provisioner
+  namespace: nfs-storage
+roleRef:
+  kind: Role
+  name: leader-locking-nfs-provisioner
+  apiGroup: rbac.authorization.k8s.io
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: nfs-provisioner
+  namespace: nfs-storage
+spec:
+  selector:
+    matchLabels:
+      app: nfs-provisioner
+  strategy:
+    type: Recreate 
+  template:
+    metadata:
+      labels:
+        app: nfs-provisioner
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: springfield
+      tolerations:
+      - operator: Exists
+        effect: NoSchedule
+      serviceAccount: nfs-provisioner
+      containers:
+      - name: nfs-provisioner
+        image: quay.io/kubernetes_incubator/nfs-provisioner:latest
+        imagePullPolicy: Always
+        securityContext:
+          privileged: true
+          capabilities:
+            add:
+            - DAC_READ_SEARCH
+            - SYS_RESOURCE
+        args:
+        - "-provisioner=nfs.springfield.uit.no"
+        - "-enable-xfs-quota=true"
+        env:
+        - name: POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        - name: SERVICE_NAME
+          value: nfs-provisioner
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        ports:
+        - name: nfs
+          containerPort: 2049
+        - name: mountd
+          containerPort: 20048
+        - name: rpcbind
+          containerPort: 111
+        - name: rpcbind-udp
+          containerPort: 111
+          protocol: UDP
+        volumeMounts:
+        - name: export-volume
+          mountPath: /export
+      volumes:
+      - name: export-volume
+        hostPath:
+          path: /mnt/md0
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: nfs-provisioner
+  namespace: nfs-storage
+spec:
+  selector:
+    app: nfs-provisioner
+  ports:
+  - name: nfs
+    port: 2049
+  - name: mountd
+    port: 20048
+  - name: rpcbind
+    port: 111
+  - name: rpcbind-udp
+    port: 111
+    protocol: UDP
+---
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: nfs-storage
+provisioner: nfs.springfield.uit.no
+mountOptions:
+- "vers=4.1"
+---
