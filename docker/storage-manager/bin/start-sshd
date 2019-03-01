@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# Ensure required privilege separation directory exists.
+mkdir -p /var/run/sshd
+
+# Start the OpenSSH server.
+/usr/sbin/sshd -D

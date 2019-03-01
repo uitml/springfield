@@ -1,0 +1,17 @@
+#!/bin/sh
+
+set -eu
+
+# The first argument should always be the username of the authenticating user.
+USER="${1}"
+HOME="${2}"
+
+# The directory containing (public) key files, populated by k8s secrets.
+SSH_KEYS_DIR="/var/run/ssh-keys"
+
+# Read and print all (public) key files from the configured source directory.
+#
+# By using `head` to only print the first line of each file, we hopefully avoid
+# printing private keys and other sensitive information that have mistakenly
+# been added to the k8s secrets object that populates the source directory.
+find "${SSH_KEYS_DIR}" -type f -print0 | xargs -0 head -q -n1
