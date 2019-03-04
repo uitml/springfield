@@ -82,7 +82,7 @@ spec:
     matchLabels:
       app: nfs-provisioner
   strategy:
-    type: Recreate 
+    type: Recreate
   template:
     metadata:
       labels:
@@ -161,5 +161,5 @@ metadata:
   name: nfs-storage
 provisioner: nfs.springfield.uit.no
 mountOptions:
-- "vers=4.1"
+- vers=4.1
 ---
