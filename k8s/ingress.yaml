@@ -157,6 +157,8 @@ spec:
   selector:
     matchLabels:
       app: ingress-nginx
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels:
