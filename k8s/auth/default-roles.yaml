@@ -17,7 +17,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: springfield:namespace-owner
   labels:
-    springfield.cloud/aggregate: "true"
+    aggregate: "true"
 rules:
 - apiGroups:
   - batch
@@ -58,7 +58,7 @@ metadata:
 aggregationRule:
   clusterRoleSelectors:
   - matchLabels:
-      springfield.cloud/aggregate: "true"
+      aggregate: "true"
 rules: []
 ---
 kind: ClusterRole
@@ -68,6 +68,6 @@ metadata:
 aggregationRule:
   clusterRoleSelectors:
   - matchLabels:
-      springfield.cloud/aggregate: "true"
+      aggregate: "true"
 rules: []
 ---
