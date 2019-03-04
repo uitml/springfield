@@ -52,30 +52,61 @@ spec:
   - ReadWriteOnce
   resources:
     requests:
-      storage: 100Gi
-  storageClassName: fast
+      storage: 500Gi
+  storageClassName: nfs-storage
 ---
-kind: Pod
-apiVersion: v1
+kind: Deployment
+apiVersion: apps/v1
 metadata:
   name: storage
   namespace: {{username}}
 spec:
-  containers:
-  - name: manager
-    image: alpine:latest
-    resources:
-      limits:
-        cpu: 100m
-        memory: 64Mi
-        nvidia.com/gpu: 0
-    volumeMounts:
-    - mountPath: /depot
-      name: depot
-    command: ["/bin/sh"]
-    args: ["-c", "while true; do sleep 1000; done"]
-  volumes:
-  - name: depot
-    persistentVolumeClaim:
-      claimName: depot
+  selector:
+    matchLabels:
+      app: manager
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: manager
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: springfield
+      tolerations:
+      - operator: Exists
+        effect: NoSchedule
+      terminationGracePeriodSeconds: 0
+      containers:
+      - name: manager
+        image: uitml/springfield:storage-manager
+        imagePullPolicy: Always
+        resources:
+          limits:
+            cpu: 100m
+            memory: 64Mi
+            nvidia.com/gpu: 0
+        ports:
+        - name: ssh
+          containerPort: 22
+        volumeMounts:
+        - name: depot
+          mountPath: "/root"
+        - name: ssh-config
+          mountPath: "/etc/ssh"
+          readOnly: true
+        - name: ssh-keys
+          mountPath: "/var/run/ssh-keys"
+          readOnly: true
+      volumes:
+      - name: depot
+        persistentVolumeClaim:
+          claimName: depot
+      - name: ssh-config
+        hostPath:
+          path: /var/springfield/etc/ssh
+      - name: ssh-keys
+        secret:
+          secretName: ssh-keys
+          optional: true
 ---
