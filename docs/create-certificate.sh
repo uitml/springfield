@@ -12,7 +12,7 @@ mkdir -p "${CERT_DIR}" && chmod 700 "${CERT_DIR}"
 
 if [ ! -f "${KEY_FILE}" ]; then
   openssl genrsa -out "${KEY_FILE}" 4096 >/dev/null 2>&1
-  printf "Created new RSA private key\n  %10.s\n" $KEY_FILE
+  printf "Created new RSA private key\n  %s\n" $KEY_FILE
 fi
 
 openssl req \
