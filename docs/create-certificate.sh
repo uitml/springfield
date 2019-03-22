@@ -10,10 +10,15 @@ CSR_FILE="${CERT_DIR}/${USERNAME}.csr"
 
 mkdir -p "${CERT_DIR}" && chmod 700 "${CERT_DIR}"
 
+if [ ! -f "${KEY_FILE}" ]; then
+  openssl genrsa -out "${KEY_FILE}" 4096 >/dev/null 2>&1
+  printf "Created new RSA private key\n  %10.s\n" $KEY_FILE
+fi
+
 openssl req \
-  -newkey rsa:4096 -keyout "${KEY_FILE}" -nodes \
-  -new -out "${CSR_FILE}" \
+  -new -key "${KEY_FILE}" -out "${CSR_FILE}" \
   -subj "/CN=${USERNAME}/O=user" \
   >/dev/null 2>&1
-
-cat "${CSR_FILE}" | base64
+printf "Created certificate signing request...\n  %s\n" $CSR_FILE
+printf "%$(tput cols)s\n" | tr ' ' '-'
+cat "${CSR_FILE}" | base64 | tr -d '\n' | xargs echo
