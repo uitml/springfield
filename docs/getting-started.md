@@ -27,45 +27,58 @@ chmod 600 $HOME/.certs/springfield/*.crt
 Keeping your credentials secret is very important, because anyone with access
 to them will be able to authenticate with the cluster using your identity.
 
-## Required utilities
+## Install client tools
 
+Most communication with the cluster is done via the official `kubectl` tool.
 Install `kubectl` by running the script below, which will install the latest
-release into your `/usr/local/bin` directory.
+release into the `/usr/local/bin` directory on your computer. Alternatively
+you can follow the [official documentation][kubectl].
 
 ```console
 curl https://uitml.github.io/springfield/install-kubectl.sh | sh
 ```
 
-Alternatively you can follow the [official documentation][kubectl].
+Once `kubectl` is installed you need to configure it by running the command
+provided to you together with your personal, signed certificate.
 
-## Optional utilities
+Verify that everything is configured correctly by running the command below,
+which should print `yes` in your terminal. If it doesn't, contact a cluster
+admin for assistance.
 
-Download and install `kubectx` [manually][kubectx], or run the script below
-to install the latest release in your `/usr/local/bin` directory.
+```console
+kubectl auth can-i create job
+```
+
+### Optional utilities
+
+If you're frequently going to work with external clusters or across multiple
+namespaces, you should install `kubectx` and `kubens` to improve your quality
+of life. Both can easily be installed by running the script below, which will
+install the latest release in your `/usr/local/bin` directory.
 
 ```console
 curl https://uitml.github.io/springfield/install-kubectx.sh | sh
 ```
 
-The `kubens` utility (bundled with `kubectx`) allows you to change the default
-namespace scope for all relevant `kubectl` commands.
+The `kubectx` tool makes it easy to switch the active `kubectl` context, which
+is useful for accessing other clusters, e.g. your local [minikube] cluster.
 
 ```console
-kubens <your username>
+kubectx minikube
 ```
 
-```console
-mkdir -p ~/.ssh && chmod 700 ~/.ssh
-```
+The `kubens` tool allows you to change the default namespace scope for all
+subsequent `kubectl` commands, which can be handy if you frequently work in
+multiple namespaces.
 
 ```console
-ssh-keygen -t rsa -f ~/.ssh/id_rsa_uit -C <your@uit.no e-mail address>
+kubens <username>@springfield
 ```
 
+## Accessing your cluster file storage
+
 ```console
-kubectl create secret generic ssh-keys \
-  --from-file=id_rsa_uit.pub=~/.ssh/id_rsa_uit.pub \
-  --dry-run -o yaml | kubectl apply -f -
+curl https://uitml.github.io/springfield/prepare-authentication.sh | sh
 ```
 
 ```console
@@ -73,5 +86,6 @@ kubectl port-forward deployments/storage 2222:22 >/dev/null 2>&1 &
 ```
 
 <!--- References --->
-[kubectl]: https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-kubectl
+[kubectl]: https://kubernetes.io/docs/tasks/tools/install-kubectl/
 [kubectx]: https://github.com/ahmetb/kubectx/releases/latest
+[minikube]: https://kubernetes.io/docs/tasks/tools/install-minikube/
