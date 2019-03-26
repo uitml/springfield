@@ -2,10 +2,10 @@
 
 set -eu
 
-API_URL="https://api.github.com/repos/ahmetb/kubectx/releases/latest"
+api_url="https://api.github.com/repos/ahmetb/kubectx/releases/latest"
 
 mkdir -p /tmp/kubectx && cd /tmp/kubectx
-curl -s "${API_URL}" \
+curl -s "${api_url}" \
   | grep "tarball_url" \
   | cut -d '"' -f 4 \
   | xargs curl -Lo kubectx.tar.gz

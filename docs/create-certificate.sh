@@ -3,23 +3,23 @@
 set -eu
 umask 077
 
-USERNAME="$1"
+username="$1"
 
-CERT_DIR="${HOME}/.certs/springfield"
-KEY_FILE="${CERT_DIR}/${USERNAME}.key"
-CSR_FILE="${CERT_DIR}/${USERNAME}.csr"
+cert_dir="${HOME}/.certs/springfield"
+key_file="${cert_dir}/${username}.key"
+csr_file="${cert_dir}/${username}.csr"
 
-mkdir -p "${CERT_DIR}"
+mkdir -p "${cert_dir}"
 
-if [ ! -f "${KEY_FILE}" ]; then
-  openssl genrsa -out "${KEY_FILE}" 4096 >/dev/null 2>&1
-  printf "Created new RSA private key\n  %s\n" $KEY_FILE
+if [ ! -f "${key_file}" ]; then
+  openssl genrsa -out "${key_file}" 4096 >/dev/null 2>&1
+  printf "Created new RSA private key\n  %s\n" $key_file
 fi
 
 openssl req \
-  -new -key "${KEY_FILE}" -out "${CSR_FILE}" \
-  -subj "/CN=${USERNAME}/O=user" \
+  -new -key "${key_file}" -out "${csr_file}" \
+  -subj "/CN=${username}/O=user" \
   >/dev/null 2>&1
-printf "Created certificate signing request...\n  %s\n" $CSR_FILE
+printf "Created certificate signing request...\n  %s\n" $csr_file
 printf "%$(tput cols)s\n" | tr ' ' '-'
-cat "${CSR_FILE}" | base64 | tr -d '\n' | xargs echo
+cat "${csr_file}" | base64 | tr -d '\n' | xargs echo
