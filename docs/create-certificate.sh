@@ -1,6 +1,7 @@
 #!/bin/sh
 
 set -eu
+umask 077
 
 USERNAME="$1"
 
@@ -8,7 +9,7 @@ CERT_DIR="${HOME}/.certs/springfield"
 KEY_FILE="${CERT_DIR}/${USERNAME}.key"
 CSR_FILE="${CERT_DIR}/${USERNAME}.csr"
 
-mkdir -p "${CERT_DIR}" && chmod 700 "${CERT_DIR}"
+mkdir -p "${CERT_DIR}"
 
 if [ ! -f "${KEY_FILE}" ]; then
   openssl genrsa -out "${KEY_FILE}" 4096 >/dev/null 2>&1
