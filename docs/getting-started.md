@@ -29,12 +29,14 @@ to them will be able to authenticate with the cluster using your identity.
 
 ## Required utilities
 
-Install `kubectl` following the [official documentation][kubectl], or run the
-script below to install the latest release in your `/usr/local/bin` directory.
+Install `kubectl` by running the script below, which will install the latest
+release into your `/usr/local/bin` directory.
 
 ```console
 curl https://uitml.github.io/springfield/install-kubectl.sh | sh
 ```
+
+Alternatively you can follow the [official documentation][kubectl].
 
 ## Optional utilities
 
@@ -44,6 +46,9 @@ to install the latest release in your `/usr/local/bin` directory.
 ```console
 curl https://uitml.github.io/springfield/install-kubectx.sh | sh
 ```
+
+The `kubens` utility (bundled with `kubectx`) allows you to change the default
+namespace scope for all relevant `kubectl` commands.
 
 ```console
 kubens <your username>
