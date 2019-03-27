@@ -9,7 +9,7 @@ certificates. The easiest way to create an RSA key and certificate signing
 request is to run the following script, which will automate the process.
 
 ```console
-curl https://uitml.github.io/springfield/create-certificate.sh <username> | sh
+curl https://uitml.github.io/springfield/create-certificate.sh | sh
 ```
 
 The next step is to send the certificate signing request (CSR) to an admin.

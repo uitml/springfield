@@ -3,7 +3,13 @@
 set -eu
 umask 077
 
-username="$1"
+read -p "Username (xyz012): " username
+
+# Validate the username to ensure it follows the "xyz012" format.
+if ! echo "${username}" | egrep -q "^[a-z]{3}[0-9]{3}$"; then
+  printf "Invalid username...\n" >&2
+  exit 1
+fi
 
 cert_dir="${HOME}/.certs/springfield"
 key_file="${cert_dir}/${username}.key"
