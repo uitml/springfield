@@ -3,7 +3,7 @@
 set -eu
 umask 077
 
-read -p "Username (xyz012): " username
+read -p "Username (xyz012): " username </dev/tty
 
 # Validate the username to ensure it follows the "xyz012" format.
 if ! echo "${username}" | egrep -q "^[a-z]{3}[0-9]{3}$"; then
