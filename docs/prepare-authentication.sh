@@ -18,8 +18,8 @@ pub_file="${key_file}.pub"
 mkdir -p "${ssh_root}"
 
 if [ ! -f "${key_file}" ]; then
-  ssh-keygen -q -t rsa -f "${key_file}" -C "${username}@uit.no"
-  printf "Created new SSH key\n  %s\n" $key_file
+  ssh-keygen -t rsa -f "${key_file}" -C "${username}@uit.no" -N "" -q
+  printf "Created new SSH key pair\n  %s\n  %s\n" $key_file $pub_file
 fi
 
 kubectl create secret generic ssh-keys \
