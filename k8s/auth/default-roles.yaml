@@ -40,8 +40,11 @@ rules:
   - create
   - delete
   - deletecollection
+  - get
+  - list
   - patch
   - update
+  - watch
 - apiGroups:
   - ""
   resources:
@@ -62,6 +65,12 @@ rules:
   - deletecollection
   - patch
   - update
+- apiGroups:
+  - extensions
+  resources:
+  - deployments
+  verbs:
+  - get
 ---
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
