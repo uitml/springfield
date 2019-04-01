@@ -1,6 +1,7 @@
 #!/bin/sh
 
 set -eu
+umask 077
 
 api_url="https://api.github.com/repos/ahmetb/kubectx/releases/latest"
 

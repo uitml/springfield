@@ -1,6 +1,7 @@
 #!/bin/sh
 
 set -eu
+umask 077
 
 api_url="https://storage.googleapis.com/kubernetes-release/release"
 version="$(curl -s ${api_url}/stable.txt)"
