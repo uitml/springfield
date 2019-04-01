@@ -20,6 +20,8 @@ mkdir -p "${cert_dir}"
 if [ ! -f "${key_file}" ]; then
   openssl genrsa -out "${key_file}" 4096 >/dev/null 2>&1
   printf "Created new RSA private key\n  %s\n" $key_file
+else
+  printf "Using existing RSA private key\n  %s\n" $key_file
 fi
 
 openssl req \
