@@ -18,7 +18,8 @@ pub_file="${key_file}.pub"
 mkdir -p "${ssh_root}"
 
 if [ ! -f "${key_file}" ] && [ ! -f "${pub_file}" ]; then
-  ssh-keygen -t rsa -f "${key_file}" -C "${username}@uit.no" -N "" -q
+  key_comment="${username}@springfield.uit.no"
+  ssh-keygen -qN "" -t rsa -f "${key_file}" -C "${key_comment}"
   printf "Created new SSH key pair\n  %s\n  %s\n" $key_file $pub_file
 
   fingerprint="$(ssh-keygen -lf "${key_file}" | cut -d " " -f 2)"
