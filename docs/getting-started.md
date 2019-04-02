@@ -1,5 +1,33 @@
 # Getting started
 
+Our GPU cluster, codenamed "Springfield", is built on an open-source system
+called [Kubernetes (k8s)][k8s]. You don't need to fully understand how that
+system works, but you'll have to install some tools and configure some things
+in order to run your research experiments on the cluster. The rest of this
+document will guide you through all of the mandatory steps.
+
+## Before getting started
+
+First of all, the commands shown in this guide must be executed in a terminal
+session on your own computer. In other words, there's no need to log into any
+remote servers. You can use whatever terminal emulator you prefer.
+
+We're assuming your computer is based on a x64 CPU architecture. Don't worry
+if you're not entirely sure what that means, since your computer most likely
+satisfies this requirement. If your computer is based on an ARM architecture,
+talk to a cluster admin and they'll help you out.
+
+There's a few prerequisite programs that must be installed in your operating
+system for all the commands to execute successfully. On macOS and most Linux
+distributions these programs are installed by default. The required programs
+are _cURL_, _OpenSSL_, and _OpenSSH_. The easiest way to check if you've got
+these programs installed is to execute the command below, which should print
+paths to all of the respective binaries.
+
+```console
+which curl openssl ssh
+```
+
 ## Creating authentication credentials
 
 **Your authentication credentials must be kept secret at all times!**
@@ -86,6 +114,7 @@ kubectl port-forward deployments/storage 2222:22 >/dev/null 2>&1 &
 ```
 
 <!--- References --->
+[k8s]: https://kubernetes.io/
 [kubectl]: https://kubernetes.io/docs/tasks/tools/install-kubectl/
 [kubectx]: https://github.com/ahmetb/kubectx/releases/latest
 [minikube]: https://kubernetes.io/docs/tasks/tools/install-minikube/
