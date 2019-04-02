@@ -15,7 +15,7 @@ subjects:
   apiGroup: rbac.authorization.k8s.io
 roleRef:
   kind: ClusterRole
-  name: springfield:{{group}}
+  name: springfield:namespace-owner
   apiGroup: rbac.authorization.k8s.io
 ---
 kind: ResourceQuota
