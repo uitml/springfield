@@ -45,7 +45,7 @@ spec:
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: depot
+  name: storage
   namespace: {{username}}
 spec:
   accessModes:
@@ -90,7 +90,7 @@ spec:
         - name: ssh
           containerPort: 22
         volumeMounts:
-        - name: depot
+        - name: storage
           mountPath: "/root"
         - name: ssh-config
           mountPath: "/etc/ssh"
