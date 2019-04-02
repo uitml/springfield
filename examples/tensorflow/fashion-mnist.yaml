@@ -11,11 +11,11 @@ spec:
         workingDir: /storage
         command: ["./fashion-mnist.sh"]
         volumeMounts:
-        - name: depot
+        - name: storage
           mountPath: /storage
       volumes:
-      - name: depot
+      - name: storage
         persistentVolumeClaim:
-          claimName: depot
+          claimName: storage
       restartPolicy: OnFailure
   backoffLimit: 0
