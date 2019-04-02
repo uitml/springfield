@@ -99,14 +99,15 @@ spec:
           mountPath: "/var/run/ssh-keys"
           readOnly: true
       volumes:
-      - name: depot
+      - name: storage
         persistentVolumeClaim:
-          claimName: depot
+          claimName: storage
       - name: ssh-config
         hostPath:
           path: /var/springfield/etc/ssh
       - name: ssh-keys
         secret:
           secretName: ssh-keys
+          defaultMode: 0400
           optional: true
 ---
