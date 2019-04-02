@@ -63,13 +63,13 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: manager
+      app: storage-proxy
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: manager
+        app: storage-proxy
     spec:
       nodeSelector:
         kubernetes.io/hostname: springfield
@@ -78,8 +78,8 @@ spec:
         effect: NoSchedule
       terminationGracePeriodSeconds: 0
       containers:
-      - name: manager
-        image: uitml/springfield:storage-manager
+      - name: storage-proxy
+        image: uitml/storage-proxy
         imagePullPolicy: Always
         resources:
           limits:
