@@ -103,14 +103,39 @@ multiple namespaces.
 kubens <username>@springfield
 ```
 
-## Accessing your cluster file storage
+## Accessing the cluster file storage
+
+Currently all interaction with the cluster file storage from your own computer
+must be routed through a storage proxy already running in your k8s namespace.
+The storage proxy is deployed as a lightweight container running an SSH server,
+and is configured to only support key-based authentication, which means you'll
+have to generate an encrypted private and public key pair to communicate with
+the storage proxy. The generated public key needs to be shared with the server,
+and this is done by storing it in a k8s secret named `ssh-keys`. Execute the
+command below to automate all of the steps needed to generate the key pair and
+copy the public key to the k8s secret.
 
 ```console
 curl https://uitml.github.io/springfield/prepare-authentication.sh | sh
 ```
 
+At this point we're almost ready to communicate with the storage proxy, but the
+container isn't normally accessible from outside the cluster network, so you'll
+have to use the port-forwarding support in `kubectl` to forward local network
+traffic to the cluster. Execute the command below to route traffic to port 2222
+on your computer to port 22 on the storage proxy container in the cluster. Note
+that this runs as a background process, and only works as long as that process
+is alive and healthy.
+
 ```console
-kubectl port-forward deployments/storage 2222:22 >/dev/null 2>&1 &
+kubectl port-forward deployments/storage-proxy 2222:22 >/dev/null 2>&1 &
+```
+
+Verify that everything is working by executing the command below, which should
+print some environment variables set inside the storage proxy container.
+
+```console
+ssh -p 2222 root@localhost printenv
 ```
 
 <!--- References --->
