@@ -49,7 +49,7 @@ metadata:
   namespace: {{username}}
 spec:
   accessModes:
-  - ReadWriteOnce
+  - ReadWriteMany
   resources:
     requests:
       storage: 500Gi
