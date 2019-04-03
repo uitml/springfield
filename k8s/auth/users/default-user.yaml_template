@@ -111,3 +111,16 @@ spec:
           defaultMode: 0400
           optional: true
 ---
+kind: Service
+apiVersion: v1
+metadata:
+  name: storage-proxy
+  namespace: {{username}}
+spec:
+  type: NodePort
+  selector:
+    app: storage-proxy
+  ports:
+  - name: ssh
+    port: 22
+---
