@@ -27,7 +27,7 @@ spec:
   hard:
     requests.cpu: 4
     requests.memory: 16Gi
-    requests.nvidia.com/gpu: 1
+    requests.nvidia.com/gpu: 2
 ---
 kind: LimitRange
 apiVersion: v1
