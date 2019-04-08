@@ -138,6 +138,66 @@ print some environment variables set inside the storage proxy container.
 ssh -p 2222 root@localhost printenv
 ```
 
+## Running experiments
+
+The only supported workflow for running experiments is using k8s jobs. Since
+jobs are not intended tailored for our typical experiment workflows, it's
+recommended that you install Frink. It can be installed by executing the
+command below. The rest of the guide assumes it's been installed.
+
+```console
+curl https://uitml.github.io/frink/install.sh | sh
+```
+
+Jobs are declared using YAML manifests, and contain all necessary information
+needed for starting a container, such as assigning resources, downloading
+Docker images, mounting filesystems, running commands, and so forth.
+
+Below is an example of a job running an experiment using TensorFlow model on
+the Fashion MNIST dataset. Much of the manifest is mandatory boilerplate, so
+some details have been omitted for brevity. The full example can be found at
+<https://github.com/uitml/springfield/examples/tensorflow>.
+
+```yaml
+kind: Job
+apiVersion: batch/v1
+metadata:
+  name: fashion-mnist
+spec:
+  template:
+    spec:
+      containers:
+      - name: fashion-mnist
+        image: "tensorflow/tensorflow:1.13.1-gpu-py3"
+        command: ["./fashion-mnist.sh"]
+        # ...
+```
+
+### Name
+
+Both `name` values must be provided, but you can choose any names as long as
+they only consist of alphanumeric characters, hyphens, or underscores.
+The first value is the job name, the second one is the container name.
+
+### Image
+
+The `image` value specifies the Docker image to use when running experiments.
+You can use any Linux-based Docker image that is publically accessible. If the
+image is hosted on [Docker Hub][hub], you can use the short format
+`<user>/<repository>:<tag>`.
+
+If you want a custom image, the best solution is to create an account on
+[Docker Hub][hub], build the image on your own computer, and push the image
+to [Docker Hub][hub]. Another, approach is to use a "bootstrap" script in your
+job that customizes the running container instance. This is the approach used
+in the example above.
+
+### Command
+
+The `command` value specifies what should be executed when the job starts, and
+typically this will be an executable script or similar. An alternative example
+to the command above might be `python3 fashion-mnist.py`.
+
 <!--- References --->
 [k8s]: https://kubernetes.io/
 [kubectl]: https://kubernetes.io/docs/tasks/tools/install-kubectl/
