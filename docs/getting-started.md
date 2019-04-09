@@ -150,12 +150,14 @@ curl https://uitml.github.io/frink/install.sh | sh
 ```
 
 Jobs are declared using YAML manifests, and contain all necessary information
-needed for starting a container, such as assigning resources, downloading
-Docker images, mounting filesystems, running commands, and so forth.
+needed for starting a container, such as finding compute resources, preparing
+container images, mounting filesystems, running commands, and so forth.
 
-Below is an example of a job running an experiment using TensorFlow model on
-the Fashion MNIST dataset. Much of the manifest is mandatory boilerplate, so
-some details have been omitted for brevity. The full example can be found at
+### Job specification
+
+Below is an example of a job running an experiment with TensorFlow on the
+Fashion MNIST dataset. Job manifests contain mandatory "boilerplate", so some
+details have been omitted for brevity. The full example can be found at
 <https://github.com/uitml/springfield/examples/tensorflow>.
 
 ```yaml
@@ -173,18 +175,20 @@ spec:
         # ...
 ```
 
-### Name
+#### Name
 
 Both `name` values must be provided, but you can choose any names as long as
 they only consist of alphanumeric characters, hyphens, or underscores.
 The first value is the job name, the second one is the container name.
 
-### Image
+#### Image
 
 The `image` value specifies the Docker image to use when running experiments.
 You can use any Linux-based Docker image that is publically accessible. If the
 image is hosted on [Docker Hub][hub], you can use the short format
 `<user>/<repository>:<tag>`.
+
+##### Customization
 
 If you want a custom image, the best solution is to create an account on
 [Docker Hub][hub], build the image on your own computer, and push the image
@@ -192,14 +196,62 @@ to [Docker Hub][hub]. Another, approach is to use a "bootstrap" script in your
 job that customizes the running container instance. This is the approach used
 in the example above.
 
-### Command
+#### Command
 
 The `command` value specifies what should be executed when the job starts, and
 typically this will be an executable script or similar. An alternative example
 to the command above might be `python3 fashion-mnist.py`.
 
+#### Other parameters
+
+Omitted job parameters might specify e.g. the required number of GPUs, memory,
+which filesystems to use and where to mount them, additional containers, and
+so forth. Some of these details typically don't need to be specified. For the
+remaining parameters that cannot be inferred, you'll typically copy the
+standard boilerplate parameters. As you get more comfortable with k8s and the
+job workflow, you might want to change some of these options to suit your own
+preferences and workflows.
+
+### Scheduling
+
+Jobs are executed by a scheduling system running in the cluster. This means
+that you'll have to register a job manifest with the scheduling system. The
+easiest way is to use the `kubectl` plugins provided with Frink.
+
+Assuming all required steps of the Fashion MNIST example have been followed,
+model training can be scheduled by executing the following command.
+
+```console
+kubectl job run fashion-mnist.yaml
+```
+
+### Monitoring experiments
+
+When a job has been scheduled, you can check the status of the job with the
+following command.
+
+```console
+kubectl job status
+```
+
+To monitor the (newest) running job by watching the output produced by the
+command running in the container, execute the following command.
+
+```console
+kubectl job watch
+```
+
+### Stopping early
+
+Stopping the (oldest) running job can be achieved with the following command.
+
+```console
+kubectl job stop
+```
+
 <!--- References --->
 [k8s]: https://kubernetes.io/
 [kubectl]: https://kubernetes.io/docs/tasks/tools/install-kubectl/
-[kubectx]: https://github.com/ahmetb/kubectx/releases/latest
+[kubectx]: https://github.com/ahmetb/kubectx#installation
 [minikube]: https://kubernetes.io/docs/tasks/tools/install-minikube/
+[hub]: https://hub.docker.com/
