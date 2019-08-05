@@ -140,10 +140,13 @@ ssh -p 2222 root@localhost printenv
 
 ## Running experiments
 
+> This aspect of Springfield is still very much work in progress. Expect big
+> changes to how jobs are scheduled, monitored, etc.
+
 The only supported workflow for running experiments is using k8s jobs. Since
 jobs are not intended tailored for our typical experiment workflows, it's
-recommended that you install Frink. It can be installed by executing the
-command below. The rest of the guide assumes it's been installed.
+recommended that you install _Frink_. It can be installed by executing the
+command below. The rest of this guide assumes it's been installed.
 
 ```console
 curl https://uitml.github.io/frink/install.sh | sh
@@ -225,28 +228,35 @@ model training can be scheduled by executing the following command.
 kubectl job run fashion-mnist.yaml
 ```
 
+Executing the command above multiple times will result in the previously
+scheduled job to be deleted before scheduling a new job. Note that if you've
+changed the deployment manifest the job will not be deleted as expected and
+must be deleted manually using the `kill` command shown below.
+
 ### Monitoring experiments
 
 When a job has been scheduled, you can check the status of the job with the
 following command.
 
 ```console
-kubectl job status
+kubectl job list
 ```
 
-To monitor the (newest) running job by watching the output produced by the
-command running in the container, execute the following command.
+To monitor the progress of any running job execute the following command,
+which shows all console output produced by in the running job's container.
 
 ```console
-kubectl job watch
+kubectl job watch <name>
 ```
 
-### Stopping early
+### Stopping and removing jobs
 
-Stopping the (oldest) running job can be achieved with the following command.
+Stopping and removing jobs can be achieved with the following command. This is
+needed in scenarios where you've made changes to your experiment and want to
+reschedule a fresh job, or when you manually want to run a job several times.
 
 ```console
-kubectl job stop
+kubectl job kill <name>
 ```
 
 <!--- References --->
