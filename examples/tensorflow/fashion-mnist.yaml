@@ -1,0 +1,21 @@
+kind: Job
+apiVersion: batch/v1
+metadata:
+  name: fashion-mnist
+spec:
+  template:
+    spec:
+      containers:
+      - name: fashion-mnist
+        image: "tensorflow/tensorflow:1.13.1-gpu-py3"
+        workingDir: /storage
+        command: ["./fashion-mnist.sh"]
+        volumeMounts:
+        - name: storage
+          mountPath: /storage
+      volumes:
+      - name: storage
+        persistentVolumeClaim:
+          claimName: storage
+      restartPolicy: OnFailure
+  backoffLimit: 0
