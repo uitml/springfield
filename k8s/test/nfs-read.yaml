@@ -1,0 +1,26 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: read-pod
+  namespace: test
+spec:
+  containers:
+  - name: read-pod
+    image: gcr.io/google_containers/busybox:1.24
+    command:
+    - "/bin/sh"
+    args:
+    - "-c"
+    - "test -f /mnt/SUCCESS && exit 0 || exit 1"
+    volumeMounts:
+    - name: nfs-pvc
+      mountPath: "/mnt"
+    resources:
+      limits:
+        cpu: 100m
+        memory: 64Mi
+  restartPolicy: Never
+  volumes:
+  - name: nfs-pvc
+    persistentVolumeClaim:
+      claimName: nfs

@@ -17,8 +17,21 @@ apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: springfield:namespace-owner
   labels:
-    springfield.cloud/aggregate: "true"
+    aggregate: "true"
 rules:
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  verbs:
+  - create
+  - delete
+  - deletecollection
+  - get
+  - list
+  - patch
+  - update
+  - watch
 - apiGroups:
   - batch
   resources:
@@ -42,7 +55,6 @@ rules:
 - apiGroups:
   - ""
   resources:
-  - pods/exec
   - pods/portforward
   verbs:
   - create
@@ -58,7 +70,7 @@ metadata:
 aggregationRule:
   clusterRoleSelectors:
   - matchLabels:
-      springfield.cloud/aggregate: "true"
+      aggregate: "true"
 rules: []
 ---
 kind: ClusterRole
@@ -68,6 +80,6 @@ metadata:
 aggregationRule:
   clusterRoleSelectors:
   - matchLabels:
-      springfield.cloud/aggregate: "true"
+      aggregate: "true"
 rules: []
 ---

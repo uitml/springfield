@@ -1,0 +1,18 @@
+---
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: test
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: nfs
+  namespace: test
+spec:
+  storageClassName: nfs-storage
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Mi
