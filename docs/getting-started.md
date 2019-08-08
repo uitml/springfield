@@ -161,7 +161,7 @@ container images, mounting filesystems, running commands, and so forth.
 Below is an example of a job running an experiment with TensorFlow on the
 Fashion MNIST dataset. Job manifests contain mandatory "boilerplate", so some
 details have been omitted for brevity. The full example can be found at
-<https://github.com/uitml/springfield/examples/tensorflow>.
+<https://github.com/uitml/springfield/tree/master/examples/tensorflow>.
 
 ```yaml
 kind: Job
