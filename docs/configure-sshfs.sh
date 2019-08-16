@@ -16,7 +16,8 @@ gid=$(id -g)
 # Assume current context is set to Springfield.
 context="$(kubectl config current-context)"
 
-# Find namespace via our naming convention; username@springfield
+# Find namespace via our naming convention; username@springfield.
+# TODO: Check that we're using a valid namespace.
 namespace="${context%%@springfield}"
 echo "Using namespace '${namespace}'..."
 
@@ -25,6 +26,7 @@ key="${HOME}/.ssh/${namespace}"
 dir="${HOME}/Springfield"
 
 # Find 'storage-proxy' SSH port.
+# TODO: Check that we found a service port.
 port="$(kubectl get svc -o jsonpath="{.items[?(@.metadata.name=='storage-proxy')]..nodePort}")"
 echo "Targeting SSH server on port ${port}"
 
@@ -49,6 +51,7 @@ fstab="/etc/fstab"
 
 # Create /etc/fstab entry.
 # <file system>  <mount point>  <type>  <options>  <dump>  <pass>
+# TODO: Check if fstab already contains a Springfield entry?
 entry="${fs}  ${dir}  fuse.sshfs $(join_by , "${opts[@]}")  0  0"
 echo "${entry}" | sudo tee -a "${fstab}" >> /dev/null
 
