@@ -7,7 +7,7 @@ function join_by { local IFS="$1"; shift; echo "$*"; }
 
 # Assumptions:
 #   1. sshfs is available.
-#   2. /etc/fuse.conf has `user_allow_other`.
+#   2. /etc/fuse.conf is configured with `user_allow_other`.
 #   3. kubectl context is set to user's namespace.
 
 uid=$(id -u)
@@ -17,18 +17,30 @@ gid=$(id -g)
 context="$(kubectl config current-context)"
 
 # Find namespace via our naming convention; username@springfield.
-# TODO: Check that we're using a valid namespace.
 namespace="${context%%@springfield}"
-echo "Using namespace '${namespace}'..."
+
+# Validate the namespace to ensure it follows the "xyz012" format.
+if ! echo "${namespace}" | egrep -q "^[a-z]{3}[0-9]{3}$"; then
+  printf "Incorrect user in current kubectl context: %s\n" $namespace >&2
+  exit 1
+fi
+
+printf "Using namespace %s...\n" $namespace
 
 fs="root@springfield.uit.no:/root"
 key="${HOME}/.ssh/${namespace}"
 dir="${HOME}/Springfield"
 
 # Find 'storage-proxy' SSH port.
-# TODO: Check that we found a service port.
 port="$(kubectl get svc -o jsonpath="{.items[?(@.metadata.name=='storage-proxy')]..nodePort}")"
-echo "Targeting SSH server on port ${port}"
+
+# Check that we found a service port.
+if [[ -z "${port// }" ]]; then
+  printf "Unable to find a storage proxy port\n"
+  exit 1
+fi
+
+printf "Targeting SSH server on port %s\n" $port
 
 # Define mount options.
 opts=(
@@ -49,11 +61,17 @@ opts=(
 # TODO: Locate this based on (common) system defaults?
 fstab="/etc/fstab"
 
+# Check if fstab already contains a Springfield entry?
+if match="$(grep -F "@springfield.uit.no" "${fstab}")"; then
+  printf "Found existing entry in %s\n" $fstab
+  exit 1
+fi
+
 # Create /etc/fstab entry.
 # <file system>  <mount point>  <type>  <options>  <dump>  <pass>
-# TODO: Check if fstab already contains a Springfield entry?
 entry="${fs}  ${dir}  fuse.sshfs $(join_by , "${opts[@]}")  0  0"
 echo "${entry}" | sudo tee -a "${fstab}" >> /dev/null
 
+printf "\nAdded the following to %s:\n  %s\n" $fstab $entry
+
 # TODO: Restart affected services (on common systems) automatically?
-# ...
