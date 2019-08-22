@@ -9,7 +9,7 @@ spec:
       - name: fashion-mnist
         image: "tensorflow/tensorflow:1.13.1-gpu-py3"
         workingDir: /storage
-        command: ["./fashion-mnist.sh"]
+        command: ["sh", "fashion-mnist.sh"]
         volumeMounts:
         - name: storage
           mountPath: /storage
