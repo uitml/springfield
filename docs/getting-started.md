@@ -30,7 +30,9 @@ which curl openssl ssh
 
 ## Creating authentication credentials
 
-**Your authentication credentials must be kept secret at all times!**
+> Your authentication credentials must be kept secret at all times!
+> Never share any authentication credentials generated while following this
+> guide unless explictly instructed to do so.
 
 Communicating with the cluster requires using RSA encryption keys and signed
 certificates. The easiest way to create an RSA key and certificate signing
