@@ -10,4 +10,5 @@ platform="$(uname -s | tr "[:upper:]" "[:lower:]")"
 mkdir -p /tmp/kubectl && cd /tmp/kubectl
 curl -LO "${api_url}/${version}/bin/${platform}/amd64/kubectl"
 chmod +x kubectl
-sudo cp --no-preserve=ownership kubectl /usr/local/bin/
+sudo mkdir -p /usr/local/bin
+sudo mv kubectl /usr/local/bin/

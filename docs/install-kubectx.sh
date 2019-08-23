@@ -12,4 +12,5 @@ curl -s "${api_url}" \
   | xargs curl -Lo kubectx.tar.gz
 tar -xf kubectx.tar.gz --strip-components=1
 chmod +x kubectx kubens
-sudo cp --no-preserve=ownership kubectx kubens /usr/local/bin/
+sudo mkdir -p /usr/local/bin
+sudo mv kubectx kubens /usr/local/bin/
