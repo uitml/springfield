@@ -24,7 +24,7 @@ if [ ! -f "${key_file}" ] && [ ! -f "${pub_file}" ]; then
 
   fingerprint="$(ssh-keygen -lf "${key_file}" | cut -d " " -f 2)"
   if ! ssh-add -l | grep -q "${fingerprint}"; then
-    sdd-add "${key_file}" >/dev/null
+    ssh-add "${key_file}" >/dev/null
     printf "Added identity to authentication agent\n  %s\n" $fingerprint
   fi
 else
