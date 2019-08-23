@@ -122,23 +122,34 @@ curl https://uitml.github.io/springfield/prepare-authentication.sh | sh
 ```
 
 At this point we're almost ready to communicate with the storage proxy, but the
-container isn't normally accessible from outside the cluster network, so you'll
-have to use the port-forwarding support in `kubectl` to forward local network
-traffic to the cluster. Execute the command below to route traffic to port 2222
-on your computer to port 22 on the storage proxy container in the cluster. Note
-that this runs as a background process, and only works as long as that process
-is alive and healthy.
+container isn't accessible on the standard SSH port (22) because every user's
+namespace has a separate storage proxy. Because of this each storage proxy has
+been assigned a random port. You can find your storage proxy port number by
+running the command below.
 
 ```console
-kubectl port-forward deployments/storage-proxy 2222:22 >/dev/null 2>&1 &
+echo $(kubectl get svc -o jsonpath="{.items[?(@.metadata.name=='storage-proxy')]..nodePort}")
 ```
 
-Verify that everything is working by executing the command below, which should
-print some environment variables set inside the storage proxy container.
+Once you have your port number run the command below, which should print some
+environment variables set inside the storage proxy container.
 
 ```console
-ssh -p 2222 root@localhost printenv
+ssh -p <your port> root@localhost printenv
 ```
+
+Assuming that the command below executed properly and you saw some environment
+variables printed in your terminal, you're now ready to interact with your
+personal cloud file storage. You can use any tool you prefer that supports the
+SSH or SFTP protocols to transfer files, e.g. `scp` or `rsync`.
+
+### Setting up sshfs (recommended)
+
+If you want a more convenient workflow by mounting the cloud file storage as a
+network device, follow the instructions below, otherwise skip ahead to
+[_Running experiments_](#running-experiments).
+
+...
 
 ## Running experiments
 
