@@ -135,7 +135,7 @@ Once you have your port number run the command below, which should print some
 environment variables set inside the storage proxy container.
 
 ```console
-ssh -p <your port> root@localhost printenv
+ssh -p <your port> root@springfield.uit.no printenv
 ```
 
 Assuming that the command below executed properly and you saw some environment
