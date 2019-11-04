@@ -1,3 +1,10 @@
+---
+title: Cluster Administration
+has_children: true
+nav_order: 3
+nav_exclude: true
+---
+
 # Kubernetes on Springfield
 This page details all the gory details of how we've installed and configured
 Kubernetes (k8s) on GPU cluster, codenamed "Springfield". The primary motivation

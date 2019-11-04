@@ -1,3 +1,8 @@
+---
+title: Getting Started
+nav_order: 2
+---
+
 # Getting started
 
 Our GPU cluster, codenamed "Springfield", is built on an open-source system

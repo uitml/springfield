@@ -1,3 +1,8 @@
+---
+title: Home
+nav_order: 1
+---
+
 # Project "Springfield"
 
 _Springfield_ is the codename for the GPU cluster owned and operated by the
