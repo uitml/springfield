@@ -29,7 +29,7 @@ are _cURL_, _OpenSSL_, and _OpenSSH_. The easiest way to check if you've got
 these programs installed is to execute the command below, which should print
 paths to all of the respective binaries.
 
-```console
+```
 which curl openssl ssh
 ```
 
@@ -43,7 +43,7 @@ Communicating with the cluster requires using RSA encryption keys and signed
 certificates. The easiest way to create an RSA key and certificate signing
 request is to run the following script, which will automate the process.
 
-```console
+```
 curl https://uitml.github.io/springfield/create-certificate.sh | sh
 ```
 
@@ -55,7 +55,7 @@ the certificate in your `$HOME/.certs/springfield` directory, which is the same
 directory that your RSA key resides in. To ensure you're the only that can read
 the certificate file, run the following command.
 
-```console
+```
 chmod 600 $HOME/.certs/springfield/*.crt
 ```
 
@@ -69,7 +69,7 @@ Install `kubectl` by running the script below, which will install the latest
 release into the `/usr/local/bin` directory on your computer. Alternatively
 you can follow the [official documentation][kubectl].
 
-```console
+```
 curl https://uitml.github.io/springfield/install-kubectl.sh | sh
 ```
 
@@ -80,7 +80,7 @@ Verify that everything is configured correctly by running the command below,
 which should print `yes` in your terminal. If it doesn't, contact a cluster
 admin for assistance.
 
-```console
+```
 kubectl auth can-i create job
 ```
 
@@ -91,14 +91,14 @@ namespaces, you should install `kubectx` and `kubens` to improve your quality
 of life. Both can easily be installed by running the script below, which will
 install the latest release in your `/usr/local/bin` directory.
 
-```console
+```
 curl https://uitml.github.io/springfield/install-kubectx.sh | sh
 ```
 
 The `kubectx` tool makes it easy to switch the active `kubectl` context, which
 is useful for accessing other clusters, e.g. your local [minikube] cluster.
 
-```console
+```
 kubectx minikube
 ```
 
@@ -106,7 +106,7 @@ The `kubens` tool allows you to change the default namespace scope for all
 subsequent `kubectl` commands, which can be handy if you frequently work in
 multiple namespaces.
 
-```console
+```
 kubens <username>@springfield
 ```
 
@@ -122,7 +122,7 @@ and this is done by storing it in a k8s secret named `ssh-keys`. Execute the
 command below to automate all of the steps needed to generate the key pair and
 copy the public key to the k8s secret.
 
-```console
+```
 curl https://uitml.github.io/springfield/prepare-authentication.sh | sh
 ```
 
@@ -132,14 +132,14 @@ namespace has a separate storage proxy. Because of this each storage proxy has
 been assigned a random port. You can find your storage proxy port number by
 running the command below.
 
-```console
+```
 echo $(kubectl get svc -o jsonpath="{.items[?(@.metadata.name=='storage-proxy')]..nodePort}")
 ```
 
 Once you have your port number run the command below, which should print some
 environment variables set inside the storage proxy container.
 
-```console
+```
 ssh -p <your port> -o identityfile=<path/to/certificate> root@springfield.uit.no printenv
 ```
 
@@ -166,7 +166,7 @@ jobs are not intended tailored for our typical experiment workflows, it's
 recommended that you install _Frink_. It can be installed by executing the
 command below. The rest of this guide assumes it's been installed.
 
-```console
+```
 curl https://uitml.github.io/frink/install.sh | sh
 ```
 
@@ -242,7 +242,7 @@ easiest way is to use the `kubectl` plugins provided with Frink.
 Assuming all required steps of the Fashion MNIST example have been followed,
 model training can be scheduled by executing the following command.
 
-```console
+```
 kubectl job run fashion-mnist.yaml
 ```
 
@@ -256,14 +256,14 @@ must be deleted manually using the `kill` command shown below.
 When a job has been scheduled, you can check the status of the job with the
 following command.
 
-```console
+```
 kubectl job list
 ```
 
 To monitor the progress of any running job execute the following command,
 which shows all console output produced by in the running job's container.
 
-```console
+```
 kubectl job watch <name>
 ```
 
@@ -273,7 +273,7 @@ Stopping and removing jobs can be achieved with the following command. This is
 needed in scenarios where you've made changes to your experiment and want to
 reschedule a fresh job, or when you manually want to run a job several times.
 
-```console
+```
 kubectl job kill <name>
 ```
 
