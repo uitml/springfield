@@ -148,13 +148,28 @@ variables printed in your terminal, you're now ready to interact with your
 personal cloud file storage. You can use any tool you prefer that supports the
 SSH or SFTP protocols to transfer files, e.g. `scp`, `rsync` or `sshfs`.
 
-<!--- ### Setting up sshfs (recommended)
+### SSH client configuration
 
-If you want a more convenient workflow by mounting the cloud file storage as a
-network device, follow the instructions below, otherwise skip ahead to
-[_Running experiments_](#running-experiments).
+If you want to simplify SSH related commands by removing the need to specify
+the port, identity and full hostname, create a host-specific configuration
+entry in your `~/.ssh/config` file.
 
-... --->
+```
+Host springfield
+  HostName springfield.uit.no
+  IdentityFile ~/.ssh/xyz123
+  Port 12345
+  User root
+```
+
+Ensure it has correct permissions by running `chmod 600 ~/.ssh/config`.
+After updating your configuration, verify that everything works as expected by
+running a much simpler version of command you ran earlier. The output should
+be identical to the earlier output.
+
+```
+ssh springfield printenv
+```
 
 ## Running experiments
 
