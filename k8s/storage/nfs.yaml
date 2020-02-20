@@ -164,6 +164,8 @@ metadata:
 spec:
   selector:
     app: nfs-provisioner
+  # Use hardcoded IP for robustness. Otherwise a random IP would be assigned.
+  clusterIP: 10.96.69.01
   ports:
   - name: nfs
     port: 2049
