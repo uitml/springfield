@@ -88,8 +88,7 @@ spec:
       labels:
         app: nfs-provisioner
     spec:
-      nodeSelector:
-        kubernetes.io/hostname: springfield
+      nodeName: springfield
       tolerations:
       - operator: Exists
         effect: NoSchedule
