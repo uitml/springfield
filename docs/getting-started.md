@@ -140,7 +140,7 @@ Once you have your port number run the command below, which should print some
 environment variables set inside the storage proxy container.
 
 ```
-ssh -p <port> -o identityfile=$HOME/<username> root@springfield.uit.no printenv
+ssh -p <port> -o identityfile=$HOME/.ssh/<username> root@springfield.uit.no printenv
 ```
 
 Assuming that the command below executed properly and you saw some environment
