@@ -252,19 +252,19 @@ preferences and workflows.
 
 Jobs are executed by a scheduling system running in the cluster. This means
 that you'll have to register a job manifest with the scheduling system. The
-easiest way is to use the `kubectl` plugins provided with Frink.
+easiest way is to use Frink.
 
 Assuming all required steps of the Fashion MNIST example have been followed,
 model training can be scheduled by executing the following command.
 
 ```
-kubectl job run fashion-mnist.yaml
+frink run fashion-mnist.yaml
 ```
 
 Executing the command above multiple times will result in the previously
-scheduled job to be deleted before scheduling a new job. Note that if you've
-changed the deployment manifest the job will not be deleted as expected and
-must be deleted manually using the `kill` command shown below.
+scheduled job to be deleted before scheduling a new job. Note that if you
+change the job name, the previous job will not be deleted automatically and
+must be deleted manually using the `rm` command shown below.
 
 ### Monitoring experiments
 
@@ -272,14 +272,23 @@ When a job has been scheduled, you can check the status of the job with the
 following command.
 
 ```
-kubectl job list
+frink ls
 ```
 
 To monitor the progress of any running job execute the following command,
-which shows all console output produced by in the running job's container.
+which shows all console output produced by in the running job's container,
 
 ```
-kubectl job watch <name>
+frink logs <name>
+```
+
+where `<name>` is the name of your job specified in the manifest.
+
+You can also choose to automatically monitor a job when scheduling by using
+the `--follow` flag with the `run` command; e.g.
+
+```
+frink run --follow fashion-mnist.yaml
 ```
 
 ### Stopping and removing jobs
@@ -289,8 +298,17 @@ needed in scenarios where you've made changes to your experiment and want to
 reschedule a fresh job, or when you manually want to run a job several times.
 
 ```
-kubectl job kill <name>
+frink rm <name>
 ```
+
+### Additional details on Frink
+
+Frink has its own self-contained help system, which can be accessed via
+
+```
+frink help
+```
+
 
 <!--- References --->
 [k8s]: https://kubernetes.io/
