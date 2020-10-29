@@ -5,7 +5,7 @@ nav_order: 2
 
 # Getting started
 
-Our GPU cluster, codenamed "Springfield", is built on an open-source system
+Our GPU cluster, "Springfield", is built on an open-source system
 called [Kubernetes (k8s)][k8s]. You don't need to fully understand how that
 system works, but you'll have to install some tools and configure some things
 in order to run your research experiments on the cluster. The rest of this
