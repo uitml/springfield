@@ -148,7 +148,7 @@ variables printed in your terminal, you're now ready to interact with your
 personal cloud file storage. You can use any tool you prefer that supports the
 SSH or SFTP protocols to transfer files, e.g. `scp`, `rsync` or `sshfs`.
 
-### SSH client configuration
+### Recommended SSH client configuration
 
 If you want to simplify SSH related commands by removing the need to specify
 the port, identity and full hostname, create a host-specific configuration
@@ -285,7 +285,7 @@ frink logs <name>
 where `<name>` is the name of your job specified in the manifest.
 
 You can also choose to automatically monitor a job when scheduling by using
-the `--follow` flag with the `run` command; e.g.
+the `--follow`/`-f` flag with the `run` command; e.g.
 
 ```
 frink run --follow fashion-mnist.yaml
@@ -294,8 +294,8 @@ frink run --follow fashion-mnist.yaml
 ### Stopping and removing jobs
 
 Stopping and removing jobs can be achieved with the following command. This is
-needed in scenarios where you've made changes to your experiment and want to
-reschedule a fresh job, or when you manually want to run a job several times.
+needed in scenarios where you've e.g. changed the name of your job and want to
+reschedule the renamed job in place of an already running job.
 
 ```
 frink rm <name>
