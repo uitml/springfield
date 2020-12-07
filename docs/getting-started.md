@@ -285,7 +285,7 @@ frink logs <name>
 where `<name>` is the name of your job specified in the manifest.
 
 You can also choose to automatically monitor a job when scheduling by using
-the `--follow`/`-f` flag with the `run` command; e.g.
+the `--follow/-f` flag with the `run` command; e.g.
 
 ```
 frink run --follow fashion-mnist.yaml
