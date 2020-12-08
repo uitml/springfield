@@ -3,30 +3,35 @@ kind: Namespace
 apiVersion: v1
 metadata:
   name: ingress-nginx
+
 ---
 kind: ConfigMap
 apiVersion: v1
 metadata:
   name: nginx-configuration
   namespace: ingress-nginx
+
 ---
 kind: ConfigMap
 apiVersion: v1
 metadata:
   name: tcp-services
   namespace: ingress-nginx
+
 ---
 kind: ConfigMap
 apiVersion: v1
 metadata:
   name: udp-services
   namespace: ingress-nginx
+
 ---
 kind: ServiceAccount
 apiVersion: v1
 metadata:
   name: nginx-ingress-serviceaccount
   namespace: ingress-nginx
+
 ---
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
@@ -79,6 +84,7 @@ rules:
   - ingresses/status
   verbs:
   - update
+
 ---
 kind: Role
 apiVersion: rbac.authorization.k8s.io/v1
@@ -120,6 +126,7 @@ rules:
   - endpoints
   verbs:
   - get
+
 ---
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
@@ -134,6 +141,7 @@ subjects:
 - kind: ServiceAccount
   name: nginx-ingress-serviceaccount
   namespace: ingress-nginx
+
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
@@ -147,6 +155,7 @@ subjects:
 - kind: ServiceAccount
   name: nginx-ingress-serviceaccount
   namespace: ingress-nginx
+
 ---
 kind: Deployment
 apiVersion: apps/v1
@@ -233,4 +242,3 @@ spec:
           periodSeconds: 10
           successThreshold: 1
           timeoutSeconds: 1
----

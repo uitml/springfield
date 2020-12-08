@@ -45,6 +45,7 @@ spec:
   seLinux:
     # SELinux is unsed in CaaSP
     rule: 'RunAsAny'
+
 ---
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
@@ -74,6 +75,7 @@ rules:
       - nodes/status
     verbs:
       - patch
+
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
@@ -87,12 +89,14 @@ subjects:
 - kind: ServiceAccount
   name: flannel
   namespace: kube-system
+
 ---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: flannel
   namespace: kube-system
+
 ---
 kind: ConfigMap
 apiVersion: v1
@@ -130,6 +134,7 @@ data:
         "Type": "vxlan"
       }
     }
+
 ---
 apiVersion: apps/v1
 kind: DaemonSet
@@ -224,6 +229,7 @@ spec:
         - name: flannel-cfg
           configMap:
             name: kube-flannel-cfg
+
 ---
 apiVersion: apps/v1
 kind: DaemonSet
@@ -318,6 +324,7 @@ spec:
         - name: flannel-cfg
           configMap:
             name: kube-flannel-cfg
+
 ---
 apiVersion: apps/v1
 kind: DaemonSet
@@ -412,6 +419,7 @@ spec:
         - name: flannel-cfg
           configMap:
             name: kube-flannel-cfg
+
 ---
 apiVersion: apps/v1
 kind: DaemonSet
@@ -506,6 +514,7 @@ spec:
         - name: flannel-cfg
           configMap:
             name: kube-flannel-cfg
+
 ---
 apiVersion: apps/v1
 kind: DaemonSet

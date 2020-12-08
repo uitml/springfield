@@ -3,12 +3,14 @@ kind: Namespace
 apiVersion: v1
 metadata:
   name: nfs-storage
+
 ---
 kind: ServiceAccount
 apiVersion: v1
 metadata:
   name: nfs-provisioner
   namespace: nfs-storage
+
 ---
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
@@ -34,6 +36,7 @@ rules:
   resources: ["podsecuritypolicies"]
   resourceNames: ["nfs-provisioner"]
   verbs: ["use"]
+
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
@@ -47,6 +50,7 @@ roleRef:
   kind: ClusterRole
   name: nfs-provisioner-runner
   apiGroup: rbac.authorization.k8s.io
+
 ---
 kind: Role
 apiVersion: rbac.authorization.k8s.io/v1
@@ -57,6 +61,7 @@ rules:
 - apiGroups: [""]
   resources: ["endpoints"]
   verbs: ["get", "list", "watch", "create", "update", "patch"]
+
 ---
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
@@ -71,6 +76,7 @@ roleRef:
   kind: Role
   name: leader-locking-nfs-provisioner
   apiGroup: rbac.authorization.k8s.io
+
 ---
 kind: Deployment
 apiVersion: apps/v1
@@ -155,6 +161,7 @@ spec:
       - name: export-volume
         hostPath:
           path: /mnt/md0
+
 ---
 kind: Service
 apiVersion: v1
@@ -197,6 +204,7 @@ spec:
   - name: statd-udp
     port: 662
     protocol: UDP
+
 ---
 kind: StorageClass
 apiVersion: storage.k8s.io/v1
@@ -206,4 +214,3 @@ provisioner: nfs.springfield.uit.no
 reclaimPolicy: Retain
 mountOptions:
 - vers=4.1
----

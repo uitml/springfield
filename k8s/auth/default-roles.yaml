@@ -11,6 +11,7 @@ roleRef:
   kind: ClusterRole
   name: cluster-admin
   apiGroup: rbac.authorization.k8s.io
+
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
@@ -24,6 +25,7 @@ roleRef:
   kind: ClusterRole
   name: springfield:user
   apiGroup: rbac.authorization.k8s.io
+
 ---
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
@@ -39,6 +41,7 @@ rules:
   - get
   - list
   - watch
+
 ---
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
@@ -108,6 +111,7 @@ rules:
   - get
   - list
   - watch
+
 ---
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
@@ -153,4 +157,3 @@ rules:
   - deployments
   verbs:
   - get
----
