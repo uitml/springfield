@@ -35,33 +35,32 @@ example, we highly recommend that you find some type of structured directory
 convention for your future experiments to make your life easier.
 
 ```console
-scp -P <port> fashion-mnist.{py,sh} root@springfield.uit.no:~/
-```
-
-Note that the `<port>` placeholder above needs to be replaced with the SSH port
-number unique to your cluster namespace. The easiest way to find that port is
-to execute the following command.
-
-```console
-echo $(kubectl get svc -o jsonpath="{.items[?(@.metadata.name=='storage-proxy')]..nodePort}")
+scp fashion-mnist.{py,sh} springfield:~/
 ```
 
 ## Training the model
 
 With the required files in place, the model can be trained by scheduling the
-example job manifest defined in `fashion-mnist.yaml`. Scheduling is currently
-supported by using `kubectl apply` and via `kubectl job run`, with the latter
-being an extension provided by [Frink][frink].
+example job manifest defined in `fashion-mnist.yaml`. Scheduling is done via
+[`frink run`][frink].
 
 ```console
-kubectl job run fashion-mnist.yaml
+frink run fashion-mnist.yaml
 ```
 
 To monitor the model training, execute the following.
 
 ```console
-kubectl job watch fashion-mnist
+frink logs fashion-mnist
 ```
+
+To stop following the job output, press `ctrl+c` on your keyboard. This does
+not stop the running job, it only stops printing the job output.
+
+Optionally, you can append `--follow` to the `frink run` command to begin
+following job output as soon as it begins executing. To stop following the
+output, press `ctrl+c` on your keyboard. If you want to follow the job once
+more, use the `frink logs <job name>` command.
 
 ## Next steps
 
