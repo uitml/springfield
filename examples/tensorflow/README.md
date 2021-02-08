@@ -8,8 +8,8 @@ Before attempting to run this example on Springfield ensure you've followed
 the [_Getting Started_][getting-started] guide, which means you should have
 access to the cluster file storage.
 
-You need to have [`scp`][scp] or have mounted
-your cluster file storage on your local machine using `sshfs` (or similar).
+You need to have [`scp`][scp] or have mounted your cluster file storage on
+your local machine using `sshfs` (or similar).
 
 ## Copying required files to the cluster
 
@@ -70,7 +70,7 @@ Saving the trained model is left as an exercise for you to get familiar with
 the cluster file storage (and TensorFlow). Keep in mind that any changes made
 to the `/storage` directory (and its descendants) are persisted between jobs
 since this is your personal cluster file storage. In other words, save the
-trained model state somewhere in this directory.
+trained model state somewhere in this directory tree.
 
 Good luck!
 
