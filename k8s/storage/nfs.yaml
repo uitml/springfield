@@ -101,7 +101,7 @@ spec:
       serviceAccount: nfs-provisioner
       containers:
       - name: nfs-provisioner
-        image: quay.io/kubernetes_incubator/nfs-provisioner:v2.3.0
+        image: k8s.gcr.io/sig-storage/nfs-provisioner:v3.0.0
         imagePullPolicy: Always
         securityContext:
           privileged: true
