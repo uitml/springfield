@@ -309,6 +309,60 @@ Frink has its own self-contained help system, which can be accessed via
 frink help
 ```
 
+## Experiment tracking with Weights & Biases on Springfield
+
+[Weights & Biases][wandb] (W&B) is a very useful online tool which can be used
+for logging and real time monitoring of your jobs. This section explains how to
+configure your Springfield jobs to log to your personal W&B account. You can
+create an account on the [W&B website][wandb]. Note that the actual logging is
+done by using the W&B Python API, which needs to be installed in the container
+for your job. See the official [W&B documentation][wandbdocs] to learn how to
+use it.
+
+### Generate an API key
+
+In order for your Springfield jobs to store the logs in your W&B account, you need
+to generate an API key and make this available to your job. Create an API key by
+logging in to your W&B account. Click on your profile icon (top right) and go to
+`Settings->API keys->New key`. Copy this key as you will need it in the next step.
+
+### Store the key on your Springfield account
+
+Run the following command to store your key as a secret on your Springfield account:
+
+```
+kubectl create secret generic wandb --from-literal=apikey=<pasteyourkeyhere>
+```
+
+Replace `<pasteyourkeyhere>` with the API key you generated in the previous step.
+
+### Making the key available for your job
+
+In order for the W&B Python API to log to your W&B account, you need to make your
+API key available for your Springfield job. This is done by editing your jobscript
+slightly:
+
+```yaml
+# ...
+spec:
+  template:
+    spec:
+      containers:
+      - name: ...
+      # ...
+        - env: 
+          - name: WANDB_API_KEY
+            valueFrom: 
+              secretKeyRef: 
+                name: wandb
+                key: apikey
+        # ...
+```
+
+This will store your key as an environment variable in your job. The W&B Python API
+will automatically use this environment variable to log to your W&B account.
+
+Congratulations! Your Springfield job should now be set up for experiment tracking with W&B.
 
 <!--- References --->
 [k8s]: https://kubernetes.io/
@@ -316,3 +370,6 @@ frink help
 [kubectx]: https://github.com/ahmetb/kubectx#installation
 [minikube]: https://kubernetes.io/docs/tasks/tools/install-minikube/
 [hub]: https://hub.docker.com/
+[wandb]: https://wandb.ai/
+[wandbdocs]: https://docs.wandb.ai/
+
