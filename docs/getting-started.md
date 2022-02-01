@@ -350,12 +350,12 @@ spec:
       containers:
       - name: ...
       # ...
-        - env: 
-          - name: WANDB_API_KEY
-            valueFrom: 
-              secretKeyRef: 
-                name: wandb
-                key: apikey
+        env: 
+        - name: WANDB_API_KEY
+          valueFrom: 
+            secretKeyRef: 
+              name: wandb
+              key: apikey
         # ...
 ```
 
