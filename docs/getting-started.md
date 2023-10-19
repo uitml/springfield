@@ -364,6 +364,34 @@ will automatically use this environment variable to log to your W&B account.
 
 Congratulations! Your Springfield job should now be set up for experiment tracking with W&B.
 
+## Multi-GPU training
+In order to allocate two GPUs to a job, your jobscript needs to be modified slightly:
+
+```yaml
+# ...
+spec:
+  template:
+    spec:
+      containers:
+        - resources:
+          limits:
+            nvidia.com/gpu: 2
+```
+
+## Requesting specific GPUs
+In order to request specific GPUs, add the following to your jobscript:
+
+```yaml
+# ...
+spec:
+  template:
+    spec:
+      nodeSelector:
+        springfield.uit.no/gpu-type: <gpu_name>
+      hostIPC: true
+```
+where <gpu_name> is replaced with one of the following: gtx-1080-ti, rtx-2080-ti, rtx-3090, or rtx-A6000.
+
 <!--- References --->
 [k8s]: https://kubernetes.io/
 [kubectl]: https://kubernetes.io/docs/tasks/tools/install-kubectl/
