@@ -22,6 +22,12 @@ if you're not entirely sure what that means, since your computer most likely
 satisfies this requirement. If your computer is based on an ARM architecture,
 talk to a cluster admin and they'll help you out.
 
+**Note**: If you are using windows, first install the [Windows Subsystem for Linux (WSL)](https://learn.microsoft.com/en-us/windows/wsl/install). You can install everything you need to run WSL with a single command. Open PowerShell or Windows Command Prompt in administrator mode by right-clicking and selecting "Run as administrator", enter the command below, then restart your machine. Follow the rest of the description by entering everything into the WSL terminal.
+
+```
+wsl --install
+```
+
 There's a few prerequisite programs that must be installed in your operating
 system for all the commands to execute successfully. On macOS and most Linux
 distributions these programs are installed by default. The required programs
