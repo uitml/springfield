@@ -379,9 +379,12 @@ spec:
   template:
     spec:
       containers:
-        - resources:
+      - name: ...
+      # ...
+        resources:
           limits:
             nvidia.com/gpu: 2
+
 ```
 
 ## Requesting specific GPUs
