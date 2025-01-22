@@ -41,6 +41,15 @@ Afterwards you can upload it to DockerHub with:
 docker tag my-docker-image my-docker-hub-name/my-docker-image:latest
 ```
 Make sure that your docker image is pushed to DockerHub and that it is public. You might have to find it in either Docker Desktop or on the DockerHub site and push it.
+To push your image to DockerHub through the terminal:
+Ensure you are logged in
+```
+docker login
+```
+And push:
+```
+docker push yourusername/name-of-image
+```
 
 # Job script
 For the job to be able to run all the Python scripts in one job, we create a bash script to execute the Python scripts one by one.
