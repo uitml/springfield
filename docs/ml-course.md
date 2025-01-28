@@ -75,7 +75,7 @@ python3 generate_predictions.py \
 
 python3 plot_results.py \
         --training-data data/train.csv \
-        --predictions predictions.csv \
+        --predictions data/predictions.csv \
         --output-chart chart.svg
 ```
 # Preparing to run your job
