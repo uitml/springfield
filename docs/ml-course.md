@@ -11,7 +11,7 @@ You will need Docker Engine and a Docker-Hub user to create your own containers:
 To create a container you need to create a file called Dockerfile.
 ```
 # Using lightweight Python image from Docker Hub as starting image
-FROM python:3.9-slim
+FROM python:3.12-slim
 # Copy the current directory contents into the container at /app
 COPY . /app
 # Change the working directory
@@ -28,6 +28,9 @@ click
 numpy
 matplotlib
 scipy
+pandas
+altair
+vl-convert-python
 ```
 # Building the container
 
@@ -57,9 +60,9 @@ For the job to be able to run all the Python scripts in one job, we create a bas
 #!/bin/sh
 
 
-python3 generate-data.py --num-samples 100 --output-file-train train.txt --output-file-test output.txt
-python3 generate-predictions.py --num-neighbors 7 --train-data train.txt --test-data output.txt --predictions-file predictions.txt
-python3 generate-results.py --num-neighbors 7 --train-data train.txt --test-data output.txt --predictions predictions.txt --output-file-labels output-labels --output-file-predictions output-predict
+python3 generate_data.py --num-samples 100 --training-data train.txt --test-data output.txt
+python3 generate_predictions.py --num-neighbors 7 --training-data train.txt --test-data output.txt --predictions predictions.txt
+python3 plot_results.py --training-data train.txt --predictions predictions.txt --output-chart chart
 ```
 # Preparing to run your job
 
