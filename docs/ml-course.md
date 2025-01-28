@@ -116,7 +116,17 @@ spec:
           claimName: storage
       restartPolicy: OnFailure
   backoffLimit: 0
-````
+```
+
+# Submit the job
+```
+frink run job.yaml --follow
+```
+or if you prefer not to use frink:
+```
+kubectl apply -f job.yaml
+```
+
 # Results
 
 When the job has finished you can copy back the results from Springfield:
