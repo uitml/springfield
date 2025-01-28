@@ -59,10 +59,24 @@ For the job to be able to run all the Python scripts in one job, we create a bas
 ```
 #!/bin/sh
 
+# create the data directory if it does not exist
+mkdir -p data
 
-python3 generate_data.py --num-samples 100 --training-data train.txt --test-data output.txt
-python3 generate_predictions.py --num-neighbors 7 --training-data train.txt --test-data output.txt --predictions predictions.txt
-python3 plot_results.py --training-data train.txt --predictions predictions.txt --output-chart chart
+python3 generate_data.py \
+        --num-samples 100 \
+        --training-data data/train.csv \
+        --test-data data/test.csv
+
+python3 generate_predictions.py \
+        --num-neighbors 7 \
+        --training-data data/train.csv \
+        --test-data data/test.csv \
+        --predictions data/predictions.csv
+
+python3 plot_results.py \
+        --training-data data/train.csv \
+        --predictions predictions.csv \
+        --output-chart chart.svg
 ```
 # Preparing to run your job
 
