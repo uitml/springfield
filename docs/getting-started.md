@@ -401,6 +401,17 @@ spec:
 ```
 where <gpu_name> is replaced with one of the following: gtx-1080-ti, rtx-2080-ti, rtx-3090, or rtx-A6000.
 
+## Requesting RTX A6000 for jobs requiring more than 24 GB VRAM per GPU
+To hinder users from randomly being assigned to the A6000s (48 GB VRAM), as they are the GPUs with the most VRAM.
+You will also need to add this to your jobscript:
+```
+spec:
+  tolerations:
+  - key: "vram"
+    operator: "Equal"
+    value: "high"
+    effect: "NoSchedule"
+```
 <!--- References --->
 [k8s]: https://kubernetes.io/
 [kubectl]: https://kubernetes.io/docs/tasks/tools/install-kubectl/
