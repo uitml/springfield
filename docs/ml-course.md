@@ -4,7 +4,13 @@ Prerequisites:
 You will need Docker Engine and a Docker-Hub user to create your own containers:
 
 [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+
 [Docker Hub](https://hub.docker.com/)
+
+Clone your own copy of the workshop code:
+```
+git clone https://github.com/workshop-material/classification-task.git
+```
 
 # Dockerfile
 
@@ -115,6 +121,6 @@ spec:
 
 When the job has finished you can copy back the results from Springfield:
 ```
-scp springfield:~/chart .
+scp springfield:~/chart.svg .
 ```
 This should copy the plotted results to the folder you are in on your local machine.
