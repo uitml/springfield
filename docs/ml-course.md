@@ -1,4 +1,4 @@
-# Running your code and creating your own container
+# Running your code and creating your own container image
 
 Prerequisites:
 You will need Docker Engine and a Docker-Hub user to create your own containers:
