@@ -69,7 +69,7 @@ python3 plot_results.py --training-data train.txt --predictions predictions.txt 
 Now we are almost ready to launch the job, first we need to copy over all the scripts to the cluster:
 
 ```
-scp experiment.sh generate-data.py generate-predictions.py generate-results.py springfield:~/
+scp experiment.sh generate_data.py generate_predictions.py plot_results.py springfield:~/
 ```
 
 # Job spec
@@ -101,7 +101,6 @@ spec:
 
 When the job has finished you can copy back the results from Springfield:
 ```
-scp springfield:~/output-labels .
-scp springfield:~/output-predict .
+scp springfield:~/chart .
 ```
 This should copy the plotted results to the folder you are in on your local machine.
