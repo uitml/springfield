@@ -14,7 +14,7 @@ git clone https://github.com/workshop-material/classification-task.git
 
 # Dockerfile
 
-To create a container you need to create a file called Dockerfile.
+To create a container image you need to create a file called Dockerfile.
 ```
 # Using lightweight Python image from Docker Hub as starting image
 FROM python:3.12-slim
