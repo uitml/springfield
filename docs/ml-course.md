@@ -124,3 +124,5 @@ When the job has finished you can copy back the results from Springfield:
 scp springfield:~/chart.svg .
 ```
 This should copy the plotted results to the folder you are in on your local machine.
+
+![alt text](chart.svg)
