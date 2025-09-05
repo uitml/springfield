@@ -78,6 +78,11 @@ you can follow the [official documentation][kubectl].
 ```
 curl https://uitml.github.io/springfield/install-kubectl.sh | sh
 ```
+If you are using a UiT provided Mac (Or Windows without WSL) 
+you will need to grant yourself temporary admin privileges 
+to be able to run the sudo commands from the script successfully.
+
+A guide to temporary admin privileges can be found here: [UiT User Support](https://uit.no/it-brukerstotte/art?p_document_id=801506) 
 
 Once `kubectl` is installed you need to configure it by running the command
 provided to you together with your personal, signed certificate.
@@ -296,7 +301,16 @@ the `--follow/-f` flag with the `run` command; e.g.
 ```
 frink run --follow fashion-mnist.yaml
 ```
+If you are having problems with your jobs crashing or not running properly, 
+this command will give some additional information about what happens cluster-side and might be helpful:
 
+```
+frink debug <job-name> -n <name>
+```
+To look at current GPU availability and view the different GPU models:
+```
+frink gpu
+```
 ### Stopping and removing jobs
 
 Stopping and removing jobs can be achieved with the following command. This is
