@@ -25,6 +25,8 @@ WORKDIR /app
 # Install the required Python packages from requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 ```
+
+
 # Requirements.txt
 In this example we only need Python and the Python dependencies. View the individual python scripts and look at the imports at the top to find the dependencies.
 Then create a requirements.txt file and add the modules there:
@@ -38,13 +40,20 @@ pandas
 altair
 vl-convert-python
 ```
-# Building the container
+# Building the container image
 
 When you have the Dockerfile and requirements.txt ready, and you are running Docker Engine (Docker Desktop), you can build your container by going to the folder where you have your Dockerfile and requirements.txt and typing:
 ```
 docker build -t name-of-my-docker-image .
 
 ```
+NOTE: if you are building the image on Mac or a machine with a different OS and CPU architecture, you need to make sure you are building the image linux/amd64.
+To do this you have to add the platform flag with the following arguments:
+
+```
+docker build -t name-of-my-docker-image . --platform=linux/amd64
+```
+
 Afterwards you can upload it to DockerHub with:
 ```
 docker tag my-docker-image my-docker-hub-name/my-docker-image:latest
