@@ -7,7 +7,7 @@ nav_order: 1
 
 _Springfield_ is the codename for the GPU cluster owned and operated by the
 [UiT Machine Learning Group](https://machine-learning.uit.no). Currently the
-cluster consists of four physical nodes, three of which are GPU servers.
+cluster consists of six physical nodes, five of which are GPU servers.
 The nodes are joined together as a Kubernetes (k8s) cluster.
 
 ## Getting access
